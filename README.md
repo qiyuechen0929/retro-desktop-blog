@@ -81,6 +81,8 @@
 | --- | --- | --- |
 | ![m-search](docs/screenshots/mobile/search.jpg) | ![m-admin](docs/screenshots/mobile/admin-overview.jpg) | ![m-admin-posts](docs/screenshots/mobile/admin-posts.jpg) |
 
+**整页长图**：[首页（桌面）](docs/screenshots/desktop/home-full.jpg) · [文章页（桌面）](docs/screenshots/desktop/post-full.jpg) · [长文章](docs/screenshots/desktop/post-long.jpg) · [后台就地管评论](docs/screenshots/desktop/admin-comments-inline.jpg) · [首页（移动端）](docs/screenshots/mobile/home-full.jpg)
+
 ---
 
 ## 三分钟跑起来
