@@ -27,11 +27,7 @@
 
 **动起来看看**（点开是 GIF）：
 
-| 切主题 | 手机滑动 | 后台写文章 |
-| --- | --- | --- |
-| ![切主题](docs/media/theme-switch.gif) | ![手机](docs/media/mobile-tour.gif) | ![后台](docs/media/admin-write.gif) |
 
-> 也有 mp4 版：[切主题](docs/media/theme-switch.mp4) · [手机滑动](docs/media/mobile-tour.mp4) · [后台写文章](docs/media/admin-write.mp4)
 
 ---
 
