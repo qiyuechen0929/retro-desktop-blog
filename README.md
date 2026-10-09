@@ -47,11 +47,7 @@
 | --- | --- | --- |
 | ![关于](docs/screenshots/desktop/me.jpg) | ![RSS](docs/screenshots/desktop/rss.jpg) | ![搜索](docs/screenshots/desktop/search.jpg) |
 
-**4 套配色**（右上角色块切换）
 
-| 梦幻粉紫（默认） | 经典桌面 | 暗夜终端 | 海盐蓝 |
-| --- | --- | --- | --- |
-| ![dream](docs/screenshots/desktop/home.jpg) | ![classic](docs/screenshots/desktop/theme-classic.jpg) | ![crt](docs/screenshots/desktop/theme-crt.jpg) | ![ocean](docs/screenshots/desktop/theme-ocean.jpg) |
 
 **管理后台**（`/admin/`，手机也能用）
 
