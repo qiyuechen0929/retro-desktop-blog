@@ -1,0 +1,26 @@
+<main id="main" class="page-single">
+  <section class="window article-window">
+    <div class="window-title">
+      <h1>❤ 展示册 · 作品与收藏</h1>
+      <span class="window-controls" aria-hidden="true"><i>_</i><i>□</i><i>×</i></span>
+    </div>
+    <div class="article-content inset-panel">
+      <p>折腾出来的东西、值得一看的收藏，都摆在这里。</p>
+      <div class="showcase-grid">
+        <% (theme.showcase || []).forEach(function(item){ %>
+        <<%- item.url ? 'a href="' + item.url + '" target="_blank" rel="noopener"' : 'div' %> class="showcase-card window">
+          <span class="showcase-tag"><%= item.tag %></span>
+          <h3><%= item.title %></h3>
+          <p><%= item.desc %></p>
+          <span class="showcase-meta">
+            <% if (item.lang) { %><span class="showcase-lang">● <%= item.lang %></span><% } %>
+            <% if (typeof item.stars !== 'undefined') { %><span class="showcase-stars">★ <%= item.stars %></span><% } %>
+            <% if (item.url) { %><span class="showcase-go">GitHub ↗</span><% } %>
+          </span>
+        </<%- item.url ? 'a' : 'div' %>>
+        <% }) %>
+      </div>
+      <%- page.content %>
+    </div>
+  </section>
+</main>

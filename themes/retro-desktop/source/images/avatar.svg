@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="136" height="136" viewBox="0 0 17 17" shape-rendering="crispEdges">
+  <!-- 像素占位头像：之后可替换为真实头像 -->
+  <rect width="17" height="17" fill="#ffd9e4"/>
+  <rect x="4" y="3" width="9" height="8" fill="#f8c8a0"/>
+  <rect x="4" y="3" width="9" height="3" fill="#4a3728"/>
+  <rect x="3" y="4" width="1" height="5" fill="#4a3728"/>
+  <rect x="13" y="4" width="1" height="5" fill="#4a3728"/>
+  <rect x="6" y="7" width="1" height="1" fill="#111"/>
+  <rect x="10" y="7" width="1" height="1" fill="#111"/>
+  <rect x="7" y="9" width="3" height="1" fill="#c86"/>
+  <rect x="5" y="8" width="1" height="1" fill="#ff9db8"/>
+  <rect x="11" y="8" width="1" height="1" fill="#ff9db8"/>
+  <rect x="5" y="11" width="7" height="4" fill="#5c8aff"/>
+  <rect x="4" y="12" width="1" height="3" fill="#5c8aff"/>
+  <rect x="12" y="12" width="1" height="3" fill="#5c8aff"/>
+  <rect x="7" y="11" width="3" height="1" fill="#fff"/>
+  <rect x="1" y="1" width="1" height="1" fill="#fff"/>
+  <rect x="15" y="2" width="1" height="1" fill="#fff"/>
+  <rect x="2" y="14" width="1" height="1" fill="#ff5c8a"/>
+  <rect x="14" y="14" width="1" height="1" fill="#ff5c8a"/>
+</svg>

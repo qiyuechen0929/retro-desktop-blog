@@ -1,0 +1,107 @@
+# Hexo 主配置 —— ChenQiyue 的博客
+# 文档: https://hexo.io/zh-cn/docs/configuration
+
+## Site
+title: ChenQiyue 的博客
+subtitle: ''
+description: '一直在折腾，偶尔有结果。这里是 ChenQiyue 的个人博客，记录技术、折腾与生活。'
+keywords: blog,ChenQiyue,个人博客,技术,折腾
+author: ChenQiyue
+language: zh-CN
+timezone: Asia/Shanghai
+
+## URL
+url: https://060929.xyz
+permalink: :year/:month/:day/:title/
+permalink_defaults:
+pretty_urls:
+  trailing_index: true
+  trailing_html: true
+
+## Directory
+source_dir: source
+public_dir: public
+tag_dir: tags
+archive_dir: archives
+category_dir: categories
+code_dir: downloads/code
+i18n_dir: :lang
+skip_render:
+
+## Writing
+new_post_name: :title.md
+default_layout: post
+titlecase: false
+external_link:
+  enable: true
+  field: site
+  exclude: ''
+filename_case: 0
+render_drafts: false
+post_asset_folder: false
+relative_link: false
+future: true
+syntax_highlighter: highlight.js
+highlight:
+  line_number: true
+  auto_detect: false
+  tab_replace: ''
+  wrap: true
+  hljs: false
+prismjs:
+  preprocess: true
+  line_number: true
+  tab_replace: ''
+
+## Home page
+index_generator:
+  path: ''
+  per_page: 10
+  order_by: -date
+
+## Category & Tag
+default_category: uncategorized
+category_map:
+tag_map:
+
+## Date / Time format
+date_format: YYYY.MM.DD
+time_format: HH:mm:ss
+updated_option: 'mtime'
+
+## Pagination
+per_page: 10
+pagination_dir: page
+
+## Extensions
+theme: retro-desktop
+
+## Deployment
+deploy:
+  type: ''
+
+## RSS (hexo-generator-feed)
+feed:
+  enable: true
+  type: atom
+  path: atom.xml
+  limit: 20
+  hub: ''
+  content: true
+  content_limit: 140
+  content_limit_delim: ' '
+  order_by: -date
+  icon: icon.svg
+  autodiscovery: true
+  template:
+
+## Sitemap
+sitemap:
+  path: sitemap.xml
+
+## Search (hexo-generator-search, 生成 /search.json)
+search:
+  path: search.json
+  field: post
+  content: true
+  format: html

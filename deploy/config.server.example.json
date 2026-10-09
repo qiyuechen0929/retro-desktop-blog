@@ -1,0 +1,24 @@
+{
+  "port": 8765,
+  "host": "127.0.0.1",
+  "adminToken": "换成你自己的长随机串（tools/init-site.mjs 会自动生成）",
+  "adminNickname": "你的昵称",
+  "siteName": "你的博客",
+  "publicApiBase": "https://blog.example.com",
+  "blogRoot": "",
+  "corsOrigins": ["https://blog.example.com", "http://localhost:4000", "http://127.0.0.1:4000"],
+  "rateLimitSeconds": 20,
+  "friendApplyLimitSeconds": 60,
+  "subscribeLimitSeconds": 60,
+  "viewCooldownSeconds": 30,
+  "maxNicknameLen": 20,
+  "maxContentLen": 500,
+  "maxPageLen": 200,
+  "smtp": {
+    "host": "smtp.qq.com",
+    "port": 465,
+    "user": "you@qq.com",
+    "pass": "SMTP 授权码（不是登录密码）",
+    "from": "you@qq.com"
+  }
+}

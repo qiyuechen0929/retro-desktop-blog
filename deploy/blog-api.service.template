@@ -1,0 +1,21 @@
+# systemd 服务模板（套版脚本会把 __ROOT__ / __PORT__ 换掉）
+# 用法：cp deploy/blog-api.service /etc/systemd/system/ && systemctl daemon-reload && systemctl enable --now blog-api
+# 不想用 systemd 也可以用 pm2：pm2 start server/comments-server.js --name blog-api --node-args="--experimental-sqlite"
+
+[Unit]
+Description=Blog comment + visitor API (node:http + node:sqlite)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=__ROOT__/server
+Environment=NODE_ENV=production
+# Node 22.5 ~ 23.3 必须带这个参数；≥ 23.4 可以去掉（带着也不报错）
+ExecStart=/usr/bin/node --experimental-sqlite __ROOT__/server/comments-server.js
+Restart=always
+RestartSec=3
+StandardOutput=append:/var/log/blog-api.log
+StandardError=append:/var/log/blog-api.log
+
+[Install]
+WantedBy=multi-user.target

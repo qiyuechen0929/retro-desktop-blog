@@ -1,0 +1,27 @@
+<main id="main" class="page-single">
+  <section class="window article-window">
+    <div class="window-title">
+      <h1>▤ 归档 · 所有文章</h1>
+      <span class="window-controls" aria-hidden="true"><i>_</i><i>□</i><i>×</i></span>
+    </div>
+    <div class="journal-toolbar"><span>共 <b><%= site.posts.length %></b> 篇</span></div>
+    <div class="archive-list inset-panel">
+      <%
+        var lastYear = '';
+        site.posts.sort('-date').each(function(post){
+          var y = date(post.date, 'YYYY');
+          if (y !== lastYear) { lastYear = y;
+      %>
+      <h2 class="archive-year"><%= y %></h2>
+      <% } %>
+      <div class="archive-row">
+        <time datetime="<%= post.date.toISOString() %>"><%= date(post.date, 'MM.DD') %></time>
+        <a href="<%- url_for(post.path) %>"><%= post.title %></a>
+        <% post.tags.each(function(tag){ %>
+        <a class="archive-tag" href="<%- url_for(tag.path) %>"><%= tag.name %></a>
+        <% }) %>
+      </div>
+      <% }) %>
+    </div>
+  </section>
+</main>

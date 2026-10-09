@@ -1,0 +1,66 @@
+<main id="main" class="page-single">
+  <section class="window article-window">
+    <div class="window-title">
+      <h1>⚿ 管理后台</h1>
+      <span class="window-controls" aria-hidden="true"><i>_</i><i>□</i><i>×</i></span>
+    </div>
+    <div class="comment-body">
+
+      <!-- 登录 -->
+      <div id="admin-login">
+        <div class="admin-login-box">
+          <p>这里是站长的地盘，输入管理密钥进入：</p>
+          <div class="c-form-row">
+            <input type="password" id="admin-token-input" class="inset-input" placeholder="管理密钥" autocomplete="off">
+            <button class="bevel-button" id="admin-login-btn" type="button">进入 ↗</button>
+          </div>
+          <p class="c-error" id="admin-login-err" hidden></p>
+        </div>
+      </div>
+
+      <!-- 面板 -->
+      <div id="admin-panel" hidden>
+        <div class="admin-tabs" role="tablist">
+          <button class="bevel-button is-active" data-tab="overview" type="button">▤ 概览</button>
+          <button class="bevel-button" data-tab="pages" type="button">▦ 文章与评论 <b id="tab-comments-n"></b></button>
+          <button class="bevel-button" data-tab="friends" type="button">☞ 友链 <b id="tab-friends-n"></b></button>
+          <button class="bevel-button" data-tab="subs" type="button">✉ 订阅者 <b id="tab-subs-n"></b></button>
+          <button class="bevel-button admin-logout" id="admin-logout" type="button">退出 ×</button>
+        </div>
+
+        <div class="admin-tab-page" id="tab-overview">
+          <div class="admin-stats" id="admin-stats"></div>
+          <p class="c-note">提示：在各文章评论区也可以就地管理（登录状态全站通用）。</p>
+        </div>
+
+        <div class="admin-tab-page" id="tab-pages" hidden>
+          <div class="admin-pages-head">
+            <button class="bevel-button" id="post-new-btn" type="button">✎ 写新文章</button>
+            <span class="c-note">点行展开评论；「查看 / 编辑 / 删除」直接操作源文件，保存后自动重新生成网站。</span>
+          </div>
+          <div id="post-editor" hidden></div>
+          <div id="admin-pages-list"><p class="c-loading">加载中…</p></div>
+        </div>
+
+        <div class="admin-tab-page" id="tab-friends" hidden>
+          <h3 class="admin-sub">待审核</h3>
+          <div id="admin-friends-pending"></div>
+          <h3 class="admin-sub">已上墙 / 已拒绝</h3>
+          <div id="admin-friends-all"></div>
+        </div>
+
+        <div class="admin-tab-page" id="tab-subs" hidden>
+          <div id="admin-subs-list"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+<div id="admin-toast" hidden></div>
+
+<script>
+  window.ADMIN_CONFIG = { api: '<%= api_base() %>' };
+</script>
+<%- js('js/admin.js') %>
+<%- js('js/admin-editor.js') %>

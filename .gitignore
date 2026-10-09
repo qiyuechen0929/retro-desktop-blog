@@ -1,0 +1,29 @@
+# ======== 依赖与构建产物 ========
+node_modules/
+public/
+db.json
+.deploy_git/
+
+# ======== 密钥 / 本地数据（千万别提交）========
+server/config.json
+server/comments.db
+server/notify-state.json
+server/backups/
+server/trash/
+*.log
+
+# ======== 本地临时文件 ========
+.ekko-tmp/
+.workbuddy/
+.shots/
+.editor-backup-*/
+index.backup-*
+部署到服务器.md
+docs/media/raw/
+
+# ======== 由 tools/init-site.mjs 生成的部署配置（模板是 deploy/*.template）========
+deploy/nginx.conf
+deploy/nginx-*.conf
+deploy/blog-api.service
+deploy/deploy.sh
+deploy/deploy.cmd

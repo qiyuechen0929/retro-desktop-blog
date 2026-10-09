@@ -1,0 +1,75 @@
+<main id="main" class="page-single">
+  <div id="read-progress" aria-hidden="true"></div>
+
+  <% if (page.toc !== false) { %>
+  <aside class="window toc-window" id="toc-window" aria-label="文章目录">
+    <div class="window-title"><span>▤ 目录</span><span class="window-controls" aria-hidden="true"><i>_</i><i>×</i></span></div>
+    <nav class="toc-body" id="toc-body"></nav>
+  </aside>
+  <% } %>
+
+  <article class="window article-window">
+    <div class="window-title">
+      <h1>▤ <%= page.title %></h1>
+      <span class="window-controls" aria-hidden="true"><i>_</i><i>□</i><i>×</i></span>
+    </div>
+    <% if (page.cover) { %>
+    <div class="post-cover"><img src="<%= page.cover %>" alt="<%= page.title %> 的封面图" loading="lazy"></div>
+    <% } %>
+    <div class="article-meta">
+      <time datetime="<%= page.date.toISOString() %>"><%= date(page.date, 'YYYY.MM.DD') %></time>
+      <% if (page.updated) { %><span class="meta-sep">·</span><span>更新于 <%= date(page.updated, 'YYYY.MM.DD') %></span><% } %>
+      <% if (page.tags && page.tags.length) { %>
+      <span class="meta-sep">·</span>
+      <% page.tags.each(function(tag){ %>
+      <a href="<%- url_for(tag.path) %>"><%= tag.name %></a>
+      <% }) %>
+      <% } %>
+      <span class="meta-sep">·</span>
+      <span>by <%= config.author %></span>
+      <span class="meta-sep">·</span>
+      <span><%= strip_html(page.content).length %> 字 · 约 <%= Math.max(1, Math.round(strip_html(page.content).length / 400)) %> 分钟读完</span>
+    </div>
+    <div class="article-content inset-panel" id="article-content">
+      <%- page.content %>
+    </div>
+    <nav class="article-nav" aria-label="上一篇 / 下一篇">
+      <% if (page.prev) { %>
+      <a class="bevel-button" href="<%- url_for(page.prev.path) %>">← <%= page.prev.title %></a>
+      <% } else { %><span></span><% } %>
+      <% if (page.next) { %>
+      <a class="bevel-button" href="<%- url_for(page.next.path) %>"><%= page.next.title %> →</a>
+      <% } %>
+    </nav>
+  </article>
+
+  <!-- 相关文章（同标签） -->
+  <%
+    var related = [];
+    if (page.tags && page.tags.length) {
+      page.tags.each(function(t){
+        t.posts.each(function(p){
+          if (p.path !== page.path && related.length < 3 && !related.find(function(r){ return r.path === p.path; })) {
+            related.push(p);
+          }
+        });
+      });
+    }
+  %>
+  <% if (related.length) { %>
+  <section class="window related-window" aria-label="相关文章">
+    <div class="window-title"><span>☞ 相关文章</span><span class="window-controls" aria-hidden="true"><i>_</i><i>×</i></span></div>
+    <div class="related-body">
+      <% related.forEach(function(p){ %>
+      <a class="related-card window" href="<%- url_for(p.path) %>">
+        <span class="related-title"><%= p.title %></span>
+        <span class="related-meta"><%= date(p.date, 'YYYY.MM.DD') %></span>
+      </a>
+      <% }) %>
+    </div>
+  </section>
+  <% } %>
+
+  <!-- 评论区 -->
+  <%- partial('partial/comments') %>
+</main>

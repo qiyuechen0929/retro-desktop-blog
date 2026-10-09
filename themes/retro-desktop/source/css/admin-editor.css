@@ -1,0 +1,338 @@
+/* ============================================================
+   retro-desktop · 写作编辑器（admin-editor）
+   与 desktop.css 的复古桌面材质保持一致：.window / .bevel-button / .inset-input
+   ============================================================ */
+
+.ae-mask {
+  position: fixed; inset: 0; z-index: 4000;
+  background: rgba(20, 14, 34, .45);
+  backdrop-filter: blur(2px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 2.2vh 2.2vw;
+}
+.ae-mask[hidden] { display: none; }
+.ae-window {
+  width: min(1460px, 96vw); height: min(920px, 94vh);
+  display: flex; flex-direction: column; overflow: hidden;
+  box-shadow: 0 24px 60px rgba(10, 6, 20, .45);
+}
+.ae-window.ae-zen { width: 98vw; height: 97vh; }
+.ae-window.ae-dragging { transition: none; }
+
+/* 标题栏 */
+.ae-titlebar { cursor: grab; user-select: none; }
+.ae-titlebar:active { cursor: grabbing; }
+.ae-title-right { display: flex; align-items: center; gap: .6rem; }
+.ae-state {
+  font-size: .72rem; opacity: .85; padding: .1rem .45rem;
+  border: 1px solid currentColor; border-radius: 3px; white-space: nowrap;
+}
+.ae-state.is-dirty { color: #b45309; }
+.ae-state.is-saved { color: #15803d; }
+.ae-state.is-busy { color: #1d4ed8; }
+.ae-state.is-error { color: #b91c1c; }
+
+/* 主体三栏 */
+.ae-body { flex: 1; display: flex; min-height: 0; gap: .55rem; padding: .6rem; }
+.ae-side {
+  width: 250px; flex: 0 0 250px; overflow: auto;
+  display: flex; flex-direction: column; gap: .55rem;
+}
+.ae-outline { width: 190px; flex: 0 0 190px; overflow: auto; }
+.ae-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: .45rem; }
+
+.ae-card {
+  border: 2px outset rgba(255,255,255,.65);
+  background: color-mix(in srgb, currentColor 4%, transparent);
+  padding: .5rem .55rem; border-radius: 3px;
+}
+.ae-card > h4 {
+  margin: 0 0 .4rem; font-size: .78rem; letter-spacing: .04em;
+  display: flex; align-items: center; justify-content: space-between; gap: .3rem;
+}
+.ae-card .ae-hint { font-size: .68rem; opacity: .72; margin: .25rem 0 0; line-height: 1.5; }
+
+.ae-field { margin-bottom: .42rem; }
+.ae-field > label { display: block; font-size: .7rem; opacity: .8; margin-bottom: .16rem; }
+.ae-field input, .ae-field textarea, .ae-field select {
+  width: 100%; font-size: .78rem; box-sizing: border-box;
+}
+.ae-field textarea { resize: vertical; min-height: 52px; }
+.ae-row { display: flex; gap: .3rem; }
+.ae-row > * { flex: 1; min-width: 0; }
+.ae-mini {
+  font-size: .68rem; padding: .18rem .4rem; cursor: pointer;
+  border: 2px outset rgba(255,255,255,.65); background: transparent; color: inherit;
+}
+.ae-chips { display: flex; flex-wrap: wrap; gap: .25rem; margin-top: .3rem; }
+.ae-chip {
+  font-size: .68rem; padding: .12rem .4rem; border-radius: 999px;
+  border: 1px solid rgba(127,127,127,.5); cursor: pointer; background: transparent; color: inherit;
+}
+.ae-chip:hover { border-color: currentColor; }
+.ae-tag-edit {
+  display: inline-flex; align-items: center; gap: .2rem;
+  font-size: .7rem; padding: .1rem .35rem; border-radius: 999px;
+  border: 1px solid rgba(127,127,127,.55);
+}
+.ae-tag-edit i { cursor: pointer; font-style: normal; opacity: .6; }
+.ae-tag-edit i:hover { opacity: 1; }
+
+/* 工具栏 */
+.ae-toolbar {
+  display: flex; flex-wrap: wrap; gap: .22rem; align-items: center;
+  padding: .3rem; border: 2px groove rgba(127,127,127,.35);
+}
+.ae-toolbar button {
+  min-width: 30px; height: 28px; font-size: .78rem; cursor: pointer;
+  border: 2px outset rgba(255,255,255,.65); background: transparent; color: inherit;
+  padding: 0 .35rem;
+}
+.ae-toolbar button:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
+.ae-toolbar button.is-on { background: color-mix(in srgb, currentColor 22%, transparent); }
+.ae-tool-sep { width: 1px; height: 20px; background: rgba(127,127,127,.45); margin: 0 .2rem; }
+.ae-toolbar .ae-right { margin-left: auto; display: flex; gap: .22rem; }
+
+/* 编辑 + 预览 */
+.ae-panes { flex: 1; display: flex; min-height: 0; gap: 0; }
+.ae-editor-wrap, .ae-preview-wrap { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.ae-editor-wrap[hidden], .ae-preview-wrap[hidden] { display: none; }
+.ae-content {
+  flex: 1; width: 100%; box-sizing: border-box; resize: none; padding: .6rem;
+  font-family: ui-monospace, "Cascadia Mono", Consolas, "Courier New", monospace;
+  font-size: .84rem; line-height: 1.7; tab-size: 2;
+}
+.ae-splitter { width: 7px; cursor: col-resize; background: rgba(127,127,127,.25); }
+.ae-splitter:hover { background: rgba(127,127,127,.5); }
+.ae-preview {
+  flex: 1; overflow: auto; padding: .7rem .9rem; font-size: .86rem; line-height: 1.8;
+  border: 2px inset rgba(127,127,127,.4); background: color-mix(in srgb, currentColor 3%, transparent);
+}
+.ae-preview h1, .ae-preview h2, .ae-preview h3, .ae-preview h4 { margin: 1.1em 0 .5em; line-height: 1.35; }
+.ae-preview h1 { font-size: 1.35rem; } .ae-preview h2 { font-size: 1.15rem; }
+.ae-preview h3 { font-size: 1rem; } .ae-preview h4 { font-size: .9rem; }
+.ae-preview p { margin: .6em 0; }
+.ae-preview ul, .ae-preview ol { padding-left: 1.4em; }
+.ae-preview li { margin: .22em 0; }
+.ae-preview blockquote {
+  margin: .7em 0; padding: .35em .8em; border-left: 3px solid rgba(127,127,127,.6); opacity: .92;
+}
+.ae-preview code {
+  font-family: ui-monospace, Consolas, monospace; font-size: .82em;
+  padding: .08em .35em; border-radius: 3px; background: rgba(127,127,127,.18);
+}
+.ae-preview pre {
+  position: relative; margin: .7em 0; padding: .7em .8em; overflow: auto;
+  border: 2px inset rgba(127,127,127,.4); background: rgba(0,0,0,.06);
+}
+.ae-preview pre code { background: none; padding: 0; font-size: .8rem; line-height: 1.6; }
+.ae-preview pre .ae-copy {
+  position: absolute; top: .3rem; right: .3rem; font-size: .66rem; cursor: pointer;
+  border: 1px solid rgba(127,127,127,.6); background: transparent; color: inherit; padding: 0 .3rem;
+}
+.ae-preview img { max-width: 100%; border-radius: 3px; }
+.ae-preview table { border-collapse: collapse; margin: .7em 0; font-size: .82rem; }
+.ae-preview th, .ae-preview td { border: 1px solid rgba(127,127,127,.5); padding: .3em .55em; }
+.ae-preview th { background: rgba(127,127,127,.16); }
+.ae-preview hr { border: none; border-top: 2px groove rgba(127,127,127,.45); margin: 1.2em 0; }
+.ae-preview a { text-decoration: underline; }
+.ae-preview .ae-task { list-style: none; margin-left: -1.1em; }
+.ae-preview mark { background: rgba(255, 208, 0, .35); }
+.ae-cover-preview { max-width: 100%; border-radius: 3px; margin-top: .3rem; }
+
+/* 大纲 */
+.ae-outline .ae-card { position: sticky; top: 0; }
+.ae-toc-link {
+  display: block; width: 100%; text-align: left; cursor: pointer; background: none;
+  border: none; color: inherit; font-size: .74rem; padding: .18rem .2rem; border-radius: 2px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.ae-toc-link:hover { background: color-mix(in srgb, currentColor 12%, transparent); }
+.ae-toc-l1 { padding-left: .2rem; font-weight: 700; }
+.ae-toc-l2 { padding-left: .9rem; }
+.ae-toc-l3 { padding-left: 1.6rem; opacity: .9; }
+.ae-toc-l4 { padding-left: 2.3rem; opacity: .82; font-size: .7rem; }
+
+/* 底部统计与操作 */
+.ae-stats {
+  display: flex; flex-wrap: wrap; gap: .1rem .9rem; align-items: center;
+  font-size: .72rem; opacity: .85; padding: 0 .15rem;
+}
+.ae-stats b { font-weight: 700; }
+.ae-actions {
+  display: flex; flex-wrap: wrap; gap: .35rem; align-items: center;
+  padding-top: .45rem; border-top: 2px groove rgba(127,127,127,.35);
+}
+.ae-actions .ae-spacer { flex: 1; }
+
+/* 检查项 */
+.ae-check { display: flex; gap: .35rem; font-size: .72rem; margin: .2rem 0; align-items: flex-start; }
+.ae-check span { opacity: .5; }
+.ae-check.is-ok span { opacity: 1; color: #15803d; }
+.ae-check.is-bad span { opacity: 1; color: #b45309; }
+
+/* 弹层：图片选择 / 模板 / 快捷键 */
+.ae-pop {
+  position: absolute; z-index: 4100; min-width: 220px; max-width: 340px; padding: .5rem;
+  border: 2px outset rgba(255,255,255,.7); box-shadow: 0 10px 26px rgba(10,6,20,.35);
+}
+.ae-pop button { display: block; width: 100%; text-align: left; margin: .15rem 0; font-size: .76rem; }
+.ae-pop .ae-pop-title { font-size: .72rem; opacity: .7; margin: .1rem 0 .3rem; }
+.ae-media-grid { display: flex; flex-wrap: wrap; gap: .3rem; }
+.ae-media-grid img {
+  width: 62px; height: 62px; object-fit: cover; cursor: pointer;
+  border: 2px outset rgba(255,255,255,.6);
+}
+
+/* 左侧栏 / 窄屏适配 */
+@media (max-width: 1100px) {
+  .ae-outline { display: none; }
+}
+@media (max-width: 860px) {
+  .ae-mask { padding: 0; }
+  .ae-window { width: 100vw; height: 100vh; border: none; }
+  .ae-body { flex-direction: column; overflow: auto; }
+  .ae-side { width: auto; flex: 0 0 auto; flex-direction: row; flex-wrap: wrap; }
+  .ae-side .ae-card { flex: 1 1 240px; }
+  .ae-panes { flex-direction: column; }
+  .ae-preview-wrap { min-height: 42vh; }
+  .ae-splitter { display: none; }
+}
+
+/* 沉浸模式：隐藏侧栏，专注正文 */
+.ae-window.ae-focus .ae-side, .ae-window.ae-focus .ae-outline { display: none; }
+
+/* 编辑器：滚动条隐藏 + 预览与网站正文观感一致 */
+.ae-content, .ae-preview, .ae-side, .ae-outline, .ae-pop, .ae-window, .ae-mask { scrollbar-width: none; -ms-overflow-style: none; }
+.ae-content::-webkit-scrollbar, .ae-preview::-webkit-scrollbar, .ae-side::-webkit-scrollbar,
+.ae-outline::-webkit-scrollbar, .ae-pop::-webkit-scrollbar, .ae-window::-webkit-scrollbar,
+.ae-mask::-webkit-scrollbar, .ae-toolbar::-webkit-scrollbar { width: 0; height: 0; display: none; }
+.ae-preview { font-size: .98rem; line-height: 1.85; }
+.ae-preview h2 { padding-bottom: .3em; border-bottom: 2px solid rgba(127,127,127,.28); }
+.ae-preview img { display: block; margin: 1.1em auto; border-radius: 6px; border: 2px solid rgba(127,127,127,.25); box-shadow: 0 6px 18px rgba(0,0,0,.12); }
+.ae-preview blockquote { background: rgba(127,127,127,.08); border-radius: 0 4px 4px 0; }
+.ae-preview .table-wrap { overflow-x: auto; }
+.ae-preview ul, .ae-preview ol { padding-left: 1.5em; }
+
+/* ==================================================================
+   控件美化 v2：把所有"白框"换成本主题的内嵌玻璃质感
+   · 颜色一律用 currentColor 混色 → 四套配色（梦幻粉紫/经典桌面/暗夜终端/海盐蓝）自动适配
+   · 输入框：柔和玻璃底 + 细边 + 聚焦光环 + 内阴影
+   · 小按钮：胶囊/圆角 + 悬停提亮微浮起
+   ================================================================== */
+
+/* 卡片本身也柔一点 */
+.ae-card {
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, currentColor 5%, transparent), color-mix(in srgb, currentColor 2%, transparent));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.28), 0 2px 8px rgba(0,0,0,.05);
+  padding: .6rem .65rem;
+}
+.ae-card > h4 {
+  font-size: .76rem; letter-spacing: .07em; opacity: .92;
+  text-transform: none; margin: 0 0 .5rem;
+}
+.ae-field > label { font-size: .69rem; letter-spacing: .05em; opacity: .68; margin-bottom: .22rem; }
+
+/* 输入类控件：统一质感 */
+.ae-card input[type="text"],
+.ae-card input[type="password"],
+.ae-card input[type="search"],
+.ae-card textarea,
+.ae-card select,
+.ae-field input,
+.ae-field textarea,
+.ae-side input,
+.ae-side textarea,
+.ae-side select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  font-size: .8rem;
+  line-height: 1.45;
+  color: inherit;
+  padding: .44rem .62rem;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  background: color-mix(in srgb, currentColor 6%, transparent);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.06);
+  transition: border-color .16s ease, background .16s ease, box-shadow .16s ease;
+}
+.ae-card input:hover, .ae-card textarea:hover, .ae-card select:hover,
+.ae-field input:hover, .ae-field textarea:hover {
+  border-color: color-mix(in srgb, currentColor 34%, transparent);
+  background: color-mix(in srgb, currentColor 9%, transparent);
+}
+.ae-card input:focus, .ae-card textarea:focus, .ae-card select:focus,
+.ae-field input:focus, .ae-field textarea:focus, .ae-side input:focus, .ae-side textarea:focus {
+  outline: none;
+  border-color: color-mix(in srgb, currentColor 52%, transparent);
+  background: color-mix(in srgb, currentColor 12%, transparent);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, currentColor 16%, transparent),
+    inset 0 1px 2px rgba(0,0,0,.05);
+}
+.ae-card input::placeholder, .ae-card textarea::placeholder, .ae-field input::placeholder, .ae-field textarea::placeholder {
+  color: inherit; opacity: .38;
+}
+.ae-card input[readonly] {
+  opacity: .62; background: color-mix(in srgb, currentColor 4%, transparent);
+  border-style: dashed; border-color: color-mix(in srgb, currentColor 16%, transparent);
+}
+.ae-card textarea { resize: vertical; min-height: 54px; }
+.ae-card select { cursor: pointer; }
+
+/* 小按钮（YAML / 设为现在 / 标记已更新 / 加 / 片段 / 图库…） */
+.ae-mini,
+.ae-row > button,
+.ae-card .ae-mini {
+  appearance: none;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, currentColor 24%, transparent);
+  background: linear-gradient(180deg, color-mix(in srgb, currentColor 10%, transparent), color-mix(in srgb, currentColor 5%, transparent));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.32);
+  color: inherit;
+  font-size: .74rem;
+  padding: .4rem .58rem;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, transform .1s ease;
+}
+.ae-mini:hover, .ae-row > button:hover {
+  border-color: color-mix(in srgb, currentColor 42%, transparent);
+  background: linear-gradient(180deg, color-mix(in srgb, currentColor 18%, transparent), color-mix(in srgb, currentColor 9%, transparent));
+}
+.ae-mini:active, .ae-row > button:active { transform: translateY(1px); background: color-mix(in srgb, currentColor 22%, transparent); }
+
+/* 标签/分类胶囊 */
+.ae-chip, .ae-tag-edit {
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  background: color-mix(in srgb, currentColor 6%, transparent);
+  padding: .22rem .62rem;
+  font-size: .72rem;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.25);
+  transition: background .15s ease, border-color .15s ease, transform .1s ease;
+}
+.ae-chip:hover, .ae-tag-edit:hover {
+  background: color-mix(in srgb, currentColor 16%, transparent);
+  border-color: color-mix(in srgb, currentColor 40%, transparent);
+  transform: translateY(-1px);
+}
+.ae-chips { gap: .3rem; margin-top: .38rem; }
+.ae-tag-edit i { opacity: .5; margin-left: .15rem; }
+.ae-tag-edit i:hover { opacity: 1; }
+
+/* 标题字数计数、提示文字更含蓄 */
+.ae-field > label > span { opacity: .55; font-size: .66rem; }
+.ae-card .ae-hint { opacity: .6; }
+
+/* 焦点环统一（避免浏览器那圈虚线） */
+.ae-window :focus { outline: none; }
+.ae-window :focus-visible {
+  outline: 2px solid color-mix(in srgb, currentColor 45%, transparent);
+  outline-offset: 2px;
+}

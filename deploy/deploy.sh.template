@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# 一键更新线上站点（Linux / macOS 用；Windows 用 deploy/deploy.cmd）
+# 前置：本机有 ssh/scp，并且已经能免密登录服务器（ssh-copy-id）
+set -euo pipefail
+
+# ==== 按你的情况改这三行（套版脚本会自动填好）====
+SERVER="user@your-server"           # 例：root@1.2.3.4 或 ~/.ssh/config 里的别名
+REMOTE="__ROOT__"                   # 服务器上的站点根目录
+SSH_PORT="22"
+# ================================================
+
+SSH="ssh -p ${SSH_PORT}"
+SCP="scp -P ${SSH_PORT}"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+
+echo "[1/5] hexo generate ..."
+npx hexo generate
+
+echo "[2/5] 打包 ..."
+mkdir -p .ekko-tmp
+tar -czf .ekko-tmp/deploy-public.tgz -C public .
+tar -czf .ekko-tmp/deploy-src.tgz themes source scripts _config.yml package.json
+
+echo "[3/5] 上传 ..."
+$SCP .ekko-tmp/deploy-public.tgz .ekko-tmp/deploy-src.tgz "$SERVER:/tmp/"
+$SCP server/comments-server.js server/package.json "$SERVER:$REMOTE/server/"
+
+echo "[4/5] 服务器解包 ..."
+$SSH "$SERVER" "R=$REMOTE; tar -xzf /tmp/deploy-public.tgz -C \$R/public; tar -xzf /tmp/deploy-src.tgz -C \$R; chmod -R a+rX \$R/public \$R/source \$R/themes \$R/scripts; echo unpacked"
+
+echo "[5/5] 重启后端 ..."
+$SSH "$SERVER" "cd $REMOTE/server && (pm2 restart blog-api || pm2 start comments-server.js --name blog-api --node-args='--experimental-sqlite') && pm2 save"
+
+echo
+echo "  OK -> 部署完成（只改了文章/样式的话不用重启后端也对）"

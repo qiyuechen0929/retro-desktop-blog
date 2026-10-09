@@ -1,0 +1,98 @@
+# retro-desktop 主题配置
+
+# 个人资料
+nickname: ChenQiyue
+motto: 一直在折腾，偶尔有结果。
+avatar: /images/avatar.svg
+profile_tags:
+  - 折腾
+  - 编程
+  - 生活随笔
+
+# 导航（主页固定在最前）
+nav:
+  - name: 归档
+    url: /archives
+  - name: 展示册
+    url: /showcase
+  - name: 关于我
+    url: /me
+  - name: 友链
+    url: /friends
+
+# 自建评论系统（server/comments-server.js）
+# api 填评论服务的「站点根地址」（不要带 /api，前端自己拼）：本地开发填 http://127.0.0.1:8765
+# 线上用 https://060929.xyz（Nginx 在 443 上把 /api/ 反代到本机 127.0.0.1:8765）
+comments:
+  enable: true
+  api: https://060929.xyz        # 站点根地址，不要带 /api；本地开发改成 http://127.0.0.1:8765        # 主题会自动去掉结尾的 /api；前端拼 /api/comments、/api/view…
+
+# Giscus 评论（已弃用，保留字段仅作备忘）
+giscus:
+  repo: ''
+  repo_id: ''
+  category: ''
+  category_id: ''
+  mapping: pathname
+  reactions: '1'
+  theme: light
+
+# 友链（在友链页展示；按下面的格式添加）
+# friends:
+#   - name: 站名
+#     url: https://example.com
+#     desc: 一句话简介
+# 友链：也可以留空 []，让访客在 /friends/ 在线申请、后台审核
+friends: []
+
+# 展示册（作品 / 项目，来自 GitHub: qiyuechen0929）
+# 展示册：换成你自己的作品（title/desc/url/tag/lang/stars）
+showcase:
+  - title: Vision Bridge
+    desc: 给纯文本模型（DeepSeek 等）加"眼睛"的 Windows 工具包：自动把粘贴/截图的图片交给视觉模型转文字，再喂回你的 AI。零依赖纯 PowerShell
+    url: https://github.com/qiyuechen0929/vision-bridge
+    tag: AI 工具
+    lang: PowerShell
+    stars: 7
+  - title: 似你 · Sini
+    desc: 用聊天记录克隆 TA 的说话方式：端侧优先的 AI 数字人格聊天 App（Flutter + sherpa-onnx 端侧语音克隆，隐私优先）
+    url: https://github.com/qiyuechen0929/sini
+    tag: AI App
+    lang: Dart
+    stars: 0
+  - title: 陈启粤的书房
+    desc: 一间可以推门进去的个人网站：2D 门厅 + Three.js 手搓 3D 房间，零素材、零框架、单个 HTML 文件，自带真实访客计数器
+    url: https://github.com/qiyuechen0929/personal-website
+    tag: 网站
+    lang: HTML
+    stars: 0
+  - title: Blender 古迹场景
+    desc: AI 实时建模的 Blender 低多边形中国古迹：北京天坛 & 佛山祖庙（白天/夜景 + 巡游视频）
+    url: https://github.com/qiyuechen0929/blender-heritage-scenes
+    tag: 3D 艺术
+    lang: Python
+    stars: 0
+  - title: Cursor 汉化精灵
+    desc: Cursor IDE 界面一键汉化工具
+    url: https://github.com/qiyuechen0929/cursor-hanhua-jingling
+    tag: 工具
+    lang: JavaScript
+    stars: 0
+  - title: WinCleanPro
+    desc: Windows 系统清理优化工具集（PowerShell 脚本）
+    url: https://github.com/qiyuechen0929/WinCleanPro
+    tag: 工具
+    lang: PowerShell
+    stars: 2
+  - title: Claude Code 中文指南
+    desc: Claude Code 的中文使用指南与实践经验
+    url: https://github.com/qiyuechen0929/claude-code-cn-guide
+    tag: 教程
+    lang: 文档
+    stars: 2
+  - title: MagnetRush
+    desc: 基于 Web 技术（HTML5 Canvas + JavaScript）的赛车躲避游戏，华丽视觉特效 + 语音助手
+    url: https://github.com/qiyuechen0929/MagnetRush
+    tag: 游戏
+    lang: HTML
+    stars: 0

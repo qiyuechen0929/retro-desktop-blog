@@ -1,0 +1,89 @@
+<main id="main" class="page-single">
+  <section class="window article-window">
+    <div class="window-title">
+      <h1>✉ 订阅 · <%= config.title %></h1>
+      <span class="window-controls" aria-hidden="true"><i>_</i><i>□</i><i>×</i></span>
+    </div>
+    <div class="article-content inset-panel">
+
+      <div class="rss-what">
+        <b>RSS 是什么？</b>它是博客的「订阅功能」——你把订阅地址交给 RSS 阅读器，以后博主每发一篇新文章，都会自动出现在你的阅读器里，不用天天来网站刷。跟着下面三步走：
+      </div>
+      <div class="rss-deploy-tip" id="rss-deploy-tip" hidden>
+        ⚠ 你现在访问的是本地预览，下面的按钮指向的是正式域名 <b><%= config.url %></b>——网站部署上线后，阅读器才能抓到文章数据。
+      </div>
+
+      <h2>① 复制订阅地址</h2>
+      <div class="rss-url-row">
+        <span class="inset-field" id="rss-feed-url"><%= config.url %>/atom.xml</span>
+        <button class="bevel-button" id="rss-copy-btn" type="button">复制</button>
+      </div>
+
+      <h2>② 挑一个 RSS 阅读器</h2>
+      <p>任选一个，都是免费的。点下面的按钮会带着订阅地址直接跳转：</p>
+      <div class="rss-readers">
+        <a class="bevel-button" id="rd-follow" target="_blank" rel="noopener">Follow（推荐）↗</a>
+        <a class="bevel-button" id="rd-feedly" target="_blank" rel="noopener">Feedly ↗</a>
+        <a class="bevel-button" id="rd-inoreader" target="_blank" rel="noopener">Inoreader ↗</a>
+      </div>
+      <p class="rss-note">如果按钮跳转失败，就在阅读器里手动选「添加订阅」，粘贴第 ① 步的地址。</p>
+
+      <h2>③ 完成，坐等新文章</h2>
+      <p>本站最近发布的文章：</p>
+      <ul class="rss-entries">
+        <% site.posts.sort('-date').limit(8).each(function(post){ %>
+        <li>
+          <time datetime="<%= post.date.toISOString() %>"><%= date(post.date, 'YYYY.MM.DD') %></time>
+          <a href="<%- url_for(post.path) %>"><%= post.title %></a>
+        </li>
+        <% }) %>
+      </ul>
+
+      <h2>或者：用邮箱订阅</h2>
+      <p>不想装阅读器？留下邮箱，新文章直接发给你：</p>
+      <form class="sub-form rss-sub" data-subscribe>
+        <input type="email" class="inset-input" placeholder="你的邮箱" required>
+        <button type="submit" class="bevel-button">邮件订阅 ↗</button>
+      </form>
+      <p class="sub-msg c-error" hidden></p>
+
+      <p class="rss-note">不想用阅读器也不想留邮箱？收藏本站、常回来看看也一样欢迎。<a href="/">返回首页 ↗</a></p>
+    </div>
+  </section>
+</main>
+
+<script>
+  window.SUBSCRIBE_CONFIG = { api: '<%= api_base() %>' };
+</script>
+<%- js('js/subscribe.js') %>
+<script>
+(function () {
+  var feedUrl = '<%= config.url %>/atom.xml';
+  // 本地/非正式域名访问时提示「部署后生效」
+  if (location.origin !== '<%= config.url %>') {
+    var tip = document.getElementById('rss-deploy-tip');
+    if (tip) tip.hidden = false;
+  }
+  var enc = encodeURIComponent(feedUrl);
+  document.getElementById('rd-follow').href = 'https://follow.is/add?url=' + enc;
+  document.getElementById('rd-feedly').href = 'https://feedly.com/i/subscription/feed/' + enc;
+  document.getElementById('rd-inoreader').href = 'https://www.inoreader.com/?add_feed=' + enc;
+  document.getElementById('rss-copy-btn').addEventListener('click', function () {
+    var btn = this;
+    var done = function () {
+      btn.textContent = '已复制 ✓';
+      setTimeout(function () { btn.textContent = '复制'; }, 1500);
+    };
+    if (navigator.clipboard) { navigator.clipboard.writeText(feedUrl).then(done); }
+    else {
+      var t = document.createElement('textarea');
+      t.value = feedUrl;
+      document.body.appendChild(t);
+      t.select();
+      document.execCommand('copy');
+      t.remove();
+      done();
+    }
+  });
+})();
+</script>

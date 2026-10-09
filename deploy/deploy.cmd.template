@@ -1,0 +1,45 @@
+@echo off
+REM ============================================================
+REM  一键更新线上站点（Windows 用；Linux/macOS 用 deploy/deploy.sh）
+REM  依赖：Windows 自带 ssh / scp / tar；建议在 ~/.ssh/config 里配好免密别名
+REM  流程：本地 hexo generate -> 打包上传（静态产物 + 主题/文章源 + 后端代码）-> 重启后端
+REM  注意：不会覆盖服务器上的 server/config.json（里面是密钥和 blogRoot）
+REM        本文件必须保持纯 ASCII + CRLF，否则 cmd.exe 在中文控制台下会解析错位
+REM ============================================================
+setlocal
+cd /d "%~dp0.."
+
+REM ==== 按你的情况改这两行（套版脚本会自动填好）====
+set SERVER=user@your-server
+set REMOTE=__ROOT__
+REM =============================================
+
+set SSHOPT=-o BatchMode=yes -o ConnectTimeout=15
+set TMP=.ekko-tmp
+if not exist "%TMP%" mkdir "%TMP%"
+
+echo [1/5] hexo generate ...
+node node_modules\hexo\bin\hexo generate || goto fail
+
+echo [2/5] packing ...
+tar -czf "%TMP%\deploy-public.tgz" -C public . || goto fail
+tar -czf "%TMP%\deploy-src.tgz" themes source scripts _config.yml package.json || goto fail
+
+echo [3/5] uploading ...
+scp %SSHOPT% "%TMP%\deploy-public.tgz" "%TMP%\deploy-src.tgz" %SERVER%:/tmp/ || goto fail
+scp %SSHOPT% server\comments-server.js server\package.json %SERVER%:%REMOTE%/server/ || goto fail
+
+echo [4/5] unpacking on server ...
+ssh %SSHOPT% %SERVER% "R=%REMOTE%; tar -xzf /tmp/deploy-public.tgz -C $R/public; tar -xzf /tmp/deploy-src.tgz -C $R; chmod -R a+rX $R/public $R/source $R/themes $R/scripts; echo unpacked" || goto fail
+
+echo [5/5] restarting blog-api ...
+ssh %SSHOPT% %SERVER% "cd %REMOTE%/server && (pm2 restart blog-api || pm2 start comments-server.js --name blog-api --node-args='--experimental-sqlite') && pm2 save" || goto fail
+
+echo.
+echo   OK - deploy finished
+exit /b 0
+
+:fail
+echo.
+echo   !! FAILED - see the errors above
+exit /b 1

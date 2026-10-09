@@ -1,0 +1,42 @@
+<main id="main" class="page-single">
+  <section class="window article-window">
+    <div class="window-title">
+      <h1>☞ 友链 · 好朋友们</h1>
+      <span class="window-controls" aria-hidden="true"><i>_</i><i>□</i><i>×</i></span>
+    </div>
+    <div class="article-content inset-panel">
+      <p>这里收藏着常来往的朋友们。想把你的站挂上来？直接在下面「自助挂链」提交，站长审核通过就上墙。</p>
+
+      <div class="friend-grid" id="friend-grid">
+        <p class="c-empty">友链加载中…</p>
+      </div>
+
+      <h2>✦ 自助挂链</h2>
+      <form class="friend-apply" id="friend-apply">
+        <div class="c-form-row">
+          <input type="text" id="f-name" class="inset-input" placeholder="站名（必填）" maxlength="30" required>
+          <input type="url" id="f-url" class="inset-input f-url" placeholder="地址 https://…（必填）" maxlength="200" required>
+        </div>
+        <div class="c-form-row">
+          <input type="text" id="f-desc" class="inset-input" placeholder="一句话简介（选填）" maxlength="100">
+          <button type="submit" class="bevel-button">提交申请 ↗</button>
+        </div>
+        <p class="c-error" id="f-msg" hidden></p>
+      </form>
+
+      <div id="friend-admin" hidden>
+        <h2>⚿ 待审核申请</h2>
+        <div id="friend-pending"></div>
+      </div>
+
+      <%- page.content %>
+    </div>
+  </section>
+
+  <%- partial('partial/comments') %>
+</main>
+
+<script>
+  window.FRIENDS_CONFIG = { api: '<%= api_base() %>' };
+</script>
+<%- js('js/friends.js') %>

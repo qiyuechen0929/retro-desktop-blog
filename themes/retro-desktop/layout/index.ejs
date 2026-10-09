@@ -1,0 +1,109 @@
+<!-- 欢迎区 -->
+<section class="desktop-welcome" aria-labelledby="welcome-title">
+  <div class="welcome-copy">
+    <h1 id="welcome-title">ChenQiyue 的 <span>博客<span class="pixel-spark" aria-hidden="true">✦</span></span></h1>
+    <p class="welcome-motto" id="welcome-motto" data-text="<%= theme.motto %>"></p>
+    <div class="welcome-links">
+      <a class="bevel-button" href="#journal">阅读文章 ↓</a>
+      <a class="bevel-button" href="/me">关于我 ↗</a>
+    </div>
+    <p class="visitor-pill" id="live-visitors" hidden aria-live="polite">
+      <span class="online-dot" aria-hidden="true"></span>你是第 <b class="lv-uv">–</b> 位访客
+      <span class="lv-sep">·</span>今天 <b class="lv-today">–</b> 人
+      <span class="lv-sep">·</span>现在 <b class="lv-online">–</b> 人在线
+    </p>
+  </div>
+
+  <section class="window profile-window" aria-label="个人介绍">
+    <div class="window-title">
+      <span>个人资料</span>
+      <span class="window-controls" aria-hidden="true"><i>_</i><i>×</i></span>
+    </div>
+    <div class="profile-body">
+      <div class="avatar-inset"><img src="<%- theme.avatar %>" width="136" height="136" alt="<%= theme.nickname %> 的头像"></div>
+      <div class="profile-name">
+        <h2><%= theme.nickname %></h2>
+        <p><%= theme.motto %></p>
+      </div>
+    </div>
+    <div class="profile-tags">
+      <% (theme.profile_tags || []).forEach(function(tag){ %>
+      <span><%= tag %></span>
+      <% }) %>
+    </div>
+  </section>
+  <span class="welcome-star" aria-hidden="true">✧</span>
+</section>
+
+<main id="main" class="desktop-columns">
+  <!-- 最近文章 -->
+  <section class="window journal-window" id="journal" aria-labelledby="journal-title">
+    <div class="window-title">
+      <h2 id="journal-title">▤ 最近写下的</h2>
+      <span class="window-controls" aria-hidden="true"><i>_</i><i>□</i><i>×</i></span>
+    </div>
+    <div class="journal-toolbar"><span>文章 <b><%= site.posts.length %></b></span></div>
+    <div class="journal-list inset-panel">
+      <% page.posts.each(function(post, i){ %>
+      <article class="post-row<%= i === 0 && page.current === 1 ? ' post-featured' : '' %>">
+        <div class="post-meta">
+          <time datetime="<%= post.date.toISOString() %>"><%= date(post.date, 'YYYY.MM.DD') %></time>
+          <% post.tags.each(function(tag){ %>
+          <a href="<%- url_for(tag.path) %>"><%= tag.name %></a>
+          <% }) %>
+        </div>
+        <% if (post.cover) { %><a class="post-thumb" href="<%- url_for(post.path) %>" aria-hidden="true" tabindex="-1"><img src="<%= post.cover %>" alt="" loading="lazy"></a><% } %>
+        <h3><a href="<%- url_for(post.path) %>"><%= post.title %></a></h3>
+        <p><%= strip_html(post.excerpt || post.content || '').trim().substring(0, 80) %>…</p>
+        <a class="post-open bevel-button" href="<%- url_for(post.path) %>" aria-label="阅读：<%= post.title %>">↗</a>
+      </article>
+      <% }) %>
+    </div>
+    <% if (page.total > 1) { %>
+    <nav class="journal-pager" aria-label="分页">
+      <% if (page.prev) { %><a class="bevel-button" href="<%- url_for(page.prev_link) %>">← 上一页</a><% } %>
+      <span>第 <%= page.current %> / <%= page.total %> 页</span>
+      <% if (page.next) { %><a class="bevel-button" href="<%- url_for(page.next_link) %>">下一页 →</a><% } %>
+    </nav>
+    <% } %>
+  </section>
+
+  <!-- 侧栏 -->
+  <aside class="desktop-side">
+    <section class="window side-window" aria-label="订阅">
+      <div class="window-title"><span>✉ 订阅这个博客</span></div>
+      <div class="side-body">
+        <p>新文章直接送到邮箱：</p>
+        <form class="sub-form" data-subscribe>
+          <input type="email" class="inset-input" placeholder="你的邮箱" required>
+          <button type="submit" class="bevel-button">订阅</button>
+        </form>
+        <p class="sub-msg c-error" hidden></p>
+        <p class="side-note">或把 <code><%= config.url %>/atom.xml</code> 粘进 RSS 阅读器；不确定怎么操作？看<a href="/rss/">订阅引导</a>。</p>
+      </div>
+    </section>
+
+    <section class="window side-window" aria-label="标签">
+      <div class="window-title"><span>⌗ 标签</span></div>
+      <div class="side-body tag-cloud">
+        <% site.tags.each(function(tag){ %>
+        <a class="bevel-button tag-chip" href="<%- url_for(tag.path) %>"><%= tag.name %> <small>(<%= tag.length %>)</small></a>
+        <% }) %>
+      </div>
+    </section>
+
+    <section class="window side-window" aria-label="快捷入口">
+      <div class="window-title"><span>☞ 到处看看</span></div>
+      <div class="side-body link-list">
+        <a href="/showcase">展示册 · 作品与收藏 ↗</a>
+        <a href="/friends">友链 · 好朋友们 ↗</a>
+        <a href="/archives">归档 · 所有文章 ↗</a>
+      </div>
+    </section>
+  </aside>
+</main>
+
+<script>
+  window.SUBSCRIBE_CONFIG = { api: '<%= api_base() %>' };
+</script>
+<%- js('js/subscribe.js') %>

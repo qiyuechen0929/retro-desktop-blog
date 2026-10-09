@@ -1,0 +1,91 @@
+# 博客站点 Nginx 配置模板（套版脚本会把 __DOMAIN__ / __ROOT__ / __PORT__ 换掉）
+# 用法：cp deploy/nginx.conf /etc/nginx/sites-available/<域名>.conf && ln -s 到 sites-enabled
+# 注意：nginx 1.25.1+ 可以用 `http2 on;`，老版本（如 1.18）必须写 `listen 443 ssl http2;`
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name __DOMAIN__;
+
+    # 证书续期验证目录（HTTP-01 用；走 DNS-01 用不到，留着不碍事）
+    location ^~ /.well-known/acme-challenge/ {
+        root __ROOT__/public;
+        default_type "text/plain";
+        allow all;
+    }
+
+    # 如果你在国内且域名没备案，80 端口可能被运营商拦（返回备案提示页），
+    # 那就保持这条 301（让 https 承担一切），或者直接上 Cloudflare Tunnel。
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name __DOMAIN__;
+
+    ssl_certificate     __ROOT__/certs/fullchain.pem;
+    ssl_certificate_key __ROOT__/certs/privkey.pem;
+    ssl_protocols       TLSv1.2 TLSv1.3;
+    ssl_session_cache   shared:SSL:10m;
+    ssl_session_timeout 10m;
+
+    root  __ROOT__/public;
+    index index.html;
+    charset utf-8;
+    # 后台上传图片走 /api/upload（JSON + base64），默认 1m 会直接 413
+    client_max_body_size 16m;
+
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/css application/javascript application/json image/svg+xml text/plain;
+
+    # ⚠️ nginx 规则：location 里一旦写了 add_header，就不再继承 server 级的那几个。
+    #    所以每个覆盖了 add_header 的 location 都要把安全头重写一遍（否则 HTML 响应会丢 HSTS）。
+    add_header Strict-Transport-Security "max-age=15552000; includeSubDomains" always;
+    add_header X-Content-Type-Options nosniff always;
+    add_header X-Frame-Options SAMEORIGIN always;
+    add_header Referrer-Policy strict-origin-when-cross-origin always;
+
+    # 评论 / 订阅 / 点赞 / 阅读量 / 实时访客 / 后台接口 → 本机评论服务
+    location /api/ {
+        proxy_pass http://127.0.0.1:__PORT__/api/;
+        proxy_http_version 1.1;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 60s;
+    }
+
+    location / {
+        try_files $uri $uri/ $uri/index.html =404;
+    }
+
+    # 图片/字体长缓存；js/css 只缓存 1 小时（主题文件没有版本号，缓存太久改了样式访客看不到）
+    location ~* \.(png|jpg|jpeg|webp|gif|svg|ico|woff2?|ttf)$ {
+        add_header Strict-Transport-Security "max-age=15552000; includeSubDomains" always;
+        add_header Cache-Control "public, max-age=2592000, immutable";
+        access_log off;
+    }
+
+    location ~* \.(css|js)$ {
+        add_header Strict-Transport-Security "max-age=15552000; includeSubDomains" always;
+        add_header Cache-Control "public, max-age=3600";
+        access_log off;
+    }
+
+    location ~* \.html?$ {
+        add_header Strict-Transport-Security "max-age=15552000; includeSubDomains" always;
+        add_header X-Content-Type-Options nosniff always;
+        add_header X-Frame-Options SAMEORIGIN always;
+        add_header Referrer-Policy strict-origin-when-cross-origin always;
+        add_header Cache-Control "no-cache";
+    }
+
+    access_log /var/log/nginx/__DOMAIN__.access.log;
+    error_log  /var/log/nginx/__DOMAIN__.error.log;
+}

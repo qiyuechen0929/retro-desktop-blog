@@ -1,0 +1,32 @@
+<% if (theme.comments && theme.comments.enable) { %>
+<section class="window comment-window" id="comments" data-page="/<%= page.path %>" aria-label="评论">
+  <div class="window-title">
+    <span>✎ 留言讨论（<b id="c-count">…</b>）</span>
+    <span class="window-controls" aria-hidden="true"><i>_</i><i>□</i><i>×</i></span>
+  </div>
+  <div class="comment-body">
+    <form class="c-form" id="c-form">
+      <div class="c-form-row">
+        <input type="text" id="c-nick" class="inset-input c-nick" placeholder="你的昵称（必填）" maxlength="20" autocomplete="nickname">
+        <input type="email" id="c-email" class="inset-input c-email" placeholder="邮箱（选填，接收回复通知）" maxlength="100" autocomplete="email">
+        <button type="submit" class="bevel-button c-submit">发射 ↗</button>
+      </div>
+      <textarea id="c-content" class="inset-input c-textarea" placeholder="说点什么吧…（友善第一）" maxlength="500" rows="3" required></textarea>
+      <p class="c-error" id="c-error" hidden></p>
+    </form>
+    <div class="c-list inset-panel" id="c-list"><p class="c-loading">评论加载中…</p></div>
+    <div class="c-foot">
+      <button class="c-admin-link" id="c-admin-toggle" type="button">⚿ 站长入口</button>
+      <span class="c-note">评论由站长自建服务提供 · 像素头像按昵称自动生成</span>
+    </div>
+  </div>
+</section>
+<script>
+  window.COMMENTS_CONFIG = { api: '<%= api_base() %>' };
+    if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) {
+      window.COMMENTS_CONFIG.api = 'http://127.0.0.1:8765';
+    }
+</script>
+<%- js('js/comments.js') %>
+<%- js('js/subscribe.js') %>
+<% } %>
