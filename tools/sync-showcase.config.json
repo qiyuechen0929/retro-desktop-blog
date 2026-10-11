@@ -1,0 +1,12 @@
+{
+  "_说明": "GitHub Actions 每天跑这份配置。路径用仓库内相对路径；日志与备份写到 .sync-backups/（已 gitignore）。generate=false 表示只更新主题配置，不在这里跑 hexo（网站重建交给你自己的部署流程）。",
+  "user": "qiyuechen0929",
+  "themeConfig": "themes/retro-desktop/_config.yml",
+  "siteRoot": ".",
+  "generate": false,
+  "logFile": ".sync-backups/showcase.log",
+  "backupDir": ".sync-backups",
+  "refreshFields": ["lang", "stars"],
+  "autoAppend": { "enabled": false, "maxTotal": 10, "tag": "项目" },
+  "exclude": []
+}

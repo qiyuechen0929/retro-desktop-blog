@@ -27,3 +27,6 @@ deploy/nginx-*.conf
 deploy/blog-api.service
 deploy/deploy.sh
 deploy/deploy.cmd
+
+# 自动同步任务产生的日志与备份
+.sync-backups/

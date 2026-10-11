@@ -1,0 +1,55 @@
+name: 展示册自动同步
+
+# 每天刷新展示册里「语言 / ★ 星数」这类客观字段（你手写的标题、简介、分类不会被改）。
+# · 想改哪些仓库：编辑 tools/sync-showcase.config.json
+# · 注意：这里 generate=false —— Actions 只更新主题配置，网站重建交给你的部署流程
+# · fork 到你自己名下：先去 Actions 页面点一次「Enable workflow」
+
+on:
+  schedule:
+    - cron: '20 20 * * *'   # UTC 20:20 = 北京时间 04:20
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 取出仓库
+        uses: actions/checkout@v4
+
+      - name: 准备 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 用当前仓库的 owner 当 GitHub 账号
+        env:
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          node -e "
+            const fs = require('fs');
+            const p = 'tools/sync-showcase.config.json';
+            const c = JSON.parse(fs.readFileSync(p, 'utf8'));
+            c.user = process.env.OWNER;
+            fs.writeFileSync(p, JSON.stringify(c, null, 2) + '\n');
+            console.log('使用 GitHub 账号：' + c.user);
+          "
+
+      - name: 刷新展示册数据
+        run: node tools/sync-showcase.mjs tools/sync-showcase.config.json
+
+      - name: 有变化才提交
+        run: |
+          YML=$(node -e "console.log(JSON.parse(require('fs').readFileSync('tools/sync-showcase.config.json','utf8')).themeConfig)")
+          git add "$YML"
+          if git diff --cached --quiet; then
+            echo "数据没有变化，跳过提交"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: 展示册自动同步（GitHub Actions）"
+          git push

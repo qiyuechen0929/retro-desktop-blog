@@ -301,6 +301,14 @@ node tools/sync-showcase.mjs
 
 > 换主题/换目录结构时，只要 `showcase:` 还是这个 YAML 结构，脚本就能继续用。
 
+### 也可以交给 GitHub Actions（不用自己的服务器）
+
+仓库里已经放好 `.github/workflows/sync-showcase.yml`：每天跑同一个脚本，把展示册的星数/语言刷新后提交回仓库。
+
+- 定时是 UTC 20:20（北京时间 04:20），也可以在 Actions 页面手动触发一次
+- 配置里 `generate: false` —— Actions 只更新主题配置，**网站重建交给你自己的部署流程**
+- **fork 到你自己名下后**，改一下 `tools/sync-showcase.config.json`，再去 Actions 页面点一次 **Enable workflow**（fork 的定时任务默认关闭）
+
 ## FAQ
 
 **Q：能不能不要后端，只做静态博客？**
