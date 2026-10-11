@@ -1,0 +1,10 @@
+{
+  "_说明": "复制成 tools/sync-showcase.config.json 再改。只刷新客观字段（lang/stars），你手写的 title/desc/tag 不会被碰。autoAppend.enabled 改成 true 才会自动追加新仓库。",
+  "user": "你的 GitHub 用户名",
+  "themeConfig": "/绝对路径/到/themes/你的主题/_config.yml",
+  "siteRoot": "/绝对路径/到博客根目录",
+  "generate": true,
+  "refreshFields": ["lang", "stars"],
+  "autoAppend": { "enabled": false, "maxTotal": 10, "tag": "项目" },
+  "exclude": []
+}

@@ -279,6 +279,28 @@ acme.sh --issue --dns dns_cf -d blog.example.com --keylength ec-256
 
 ---
 
+## 展示册自动同步（可选）
+
+主题配置里的 `showcase:` 数组就是 `/showcase/` 页面的数据源。它可以让脚本自动跟着 GitHub 走 —— **你手写的标题、简介、分类标签一个字都不会动，只有「语言」和「★ 星数」这类客观字段会被刷新**：
+
+```bash
+cp tools/sync-showcase.config.example.json tools/sync-showcase.config.json
+# 填上：你的 GitHub 用户名 / 主题 _config.yml 绝对路径 / 博客根目录
+node tools/sync-showcase.mjs
+```
+
+- 只刷新 `lang`（语言）和 `stars`（星数），并按 `url` 里的仓库地址去 GitHub 取最新值
+- 改完会**自动执行 `hexo generate`** 重建 `public/`（也可以设 `generate: false` 手动控制）
+- 可选自动追加新仓库：把 `autoAppend.enabled` 设为 `true`（默认关，保持你的精选感）
+- 幂等（没变化不写）、写前备份主题配置、产物校验失败则中止
+- 想每天自动跑：
+
+```bash
+20 4 * * * /usr/bin/node /绝对路径/tools/sync-showcase.mjs >/dev/null 2>&1
+```
+
+> 换主题/换目录结构时，只要 `showcase:` 还是这个 YAML 结构，脚本就能继续用。
+
 ## FAQ
 
 **Q：能不能不要后端，只做静态博客？**
