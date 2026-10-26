@@ -1,0 +1,22 @@
+{
+  "name": "blog-promo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render": "remotion render src/index.ts Promo out/promo.mp4",
+    "still": "remotion still src/index.ts Promo"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.507",
+    "@remotion/media": "4.0.507",
+    "remotion": "4.0.507",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "typescript": "5.9.3"
+  }
+}

@@ -10,6 +10,22 @@
 
 ![首页](docs/screenshots/desktop/home.jpg)
 
+## 🎬 宣传片
+
+[![宣传片](docs/promo/poster.png)](https://qiyuechen0929.github.io/retro-desktop-blog/promo/)
+
+**[▶ 在线观看（45s / 1080p60）](https://qiyuechen0929.github.io/retro-desktop-blog/promo/)** · [下载原片](docs/promo/blog-promo-1080p60.mp4) · [工程源码 `promo/`](promo)
+
+一支用 Remotion 纯代码逐帧渲染的宣传片：128 BPM、19 个镜头，画面里没有一帧来自剪辑软件；配乐也是代码合成的，零版权风险。
+
+```
+01 POWER ON   02 POST      03 IDENTITY  04 DESKTOP   05 SKINS
+06 DIVE IN    07 ARTICLES  08 READING   09 GALLERY   10 NUMBERS
+11 FOUR WORLDS  12 BREATHE  13 IMPACT    14 060929.XYZ  15 ORBIT
+16 SHATTER    17 PLAY      18 VOXEL HEART  19 THE END
+```
+
+
 ---
 
 ## 这是什么
